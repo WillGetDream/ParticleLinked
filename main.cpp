@@ -1,13 +1,10 @@
-// ConsoleApplication1.cpp : Defines the entry point for the console application.
-//
-
-#include "stdafx.h"
 #include <iostream>
 #include <Windows.h>
 #include <chrono>
 #include <assert.h>
 #include <time.h>
 #include <stdio.h>
+#include <thread>
 using namespace std;
 
 
@@ -22,6 +19,8 @@ BOOL setPosition(int x, int y) {
 static void DRAW(float x, float y) {
 	setPosition(x, y);
 	cout << "*";
+	
+
 }
 
 
@@ -76,7 +75,7 @@ bool Particle::draw()
 	y += vy;
 
 	DRAW(x, y);
-	//printf("\n[p %f %f]", x, y);
+	printf("\n[p %f %f]", x, y);
 
 	return framesLeft_ == 0;
 }
@@ -95,7 +94,7 @@ public:
 
 
 private:
-	static const int POOL_SIZE = 100;
+	static const int POOL_SIZE = 200;
 	Particle particles_[POOL_SIZE];
 	Particle* firstAvailable_;
 
@@ -146,36 +145,38 @@ void ParticlePool::draw()
 
 
 int main() {
-	while (true) {
-		//if (GetAsyncKeyState(VK_DOWN) < 0) {
-		if (1) {
+
 
 			srand(static_cast<unsigned int>(time(0)));
-			int FRAMES = 30;
+			int FRAMES = 150;
 
 			ParticlePool *ps = new ParticlePool();
 
-			ps->create(0,0,rand()%3+1,rand()%3+1,10);
+			ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 20);
 
 
 			for (int i = 0; i < FRAMES; i++) {
 
-			   //printf("\n\n[FRAME %d]", i);
+				printf("\n\n[FRAME %d]", i);
 				ps->draw();
-				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 5);
-				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 5);
-				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 5);
-				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 5);
-			
+
+				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 15);
+				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 15);
+				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 15);
+				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 15);
+				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 15);
+				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 15);
+				ps->create(0, 0, rand() % 3 + 1, rand() % 3 + 1, 15);
+
+				this_thread::sleep_for(chrono::milliseconds(100));
+				system("CLS");
 			}
 
 
-			break;
-		}
-	}
+		
 
 
-
+	cin.get();
 	return 0;
 
 }
